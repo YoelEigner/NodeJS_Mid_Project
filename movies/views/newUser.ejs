@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" />
+    <title>New User</title>
+  </head>
+  <body>
+    <h1>New User</h1>
+    <br />
+    <br />
+    <input type="button" value="Home" onclick="window.location='/home'" /><br />
+
+    <br />
+    <br />
+    <div class="container"><a href="/usermgmt/add">Add User</a></div>
+    <br />
+    <div class="container">
+      <form action="/usermgmt/add" method="POST">
+        Username : <input type="text" name="username" /><br />
+        Password : <input type="text" name="pwd" /><br />
+        Admin ? : <input type="checkbox" name="admin" />
+        <br />
+        <br />
+        <input type="submit" value="Add User" />
+      </form>
+    </div>
+  </body>
+</html>

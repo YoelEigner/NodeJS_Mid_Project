@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" />
+    <title>User Management</title>
+  </head>
+  <body>
+    <h1>User Management</h1>
+    <br />
+    <br />
+    <input type="button" value="Home" onclick="window.location='/home'" />
+    <% if(allow.admin){ %>
+    <br />
+    <div class="container"><a href="/usermgmt/add">Add User</a></div>
+    <br />
+    <div class="container">
+      <% creds.map(x => { %>
+      <div name="username">Username : <%= x.username %></div>
+      <a href="/usermgmt/<%= x.username %>">Update</a>
+      <a href="/usermgmt/<%= x.username %>/delete">Delete</a> <br />
+      <br />
+      <% }) %>
+    </div>
+    <% } %>
+  </body>
+</html>

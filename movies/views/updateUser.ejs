@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" />
+    <title>Update User</title>
+  </head>
+  <body>
+    <h1>Update User</h1>
+    <br />
+    <input type="button" value="Home" onclick="window.location='/home'" /><br/>
+    <div class="container">
+      <form action="/usermgmt/<%= user.username%>/update" method="POST">
+        Username : <input type="text" value="<%= user.username %>" name="username" readonly="true"/> <br />
+        Password : <input type="text" value="<%= user.password %>" name="password" /><br />
+        Admin ? : <input type="checkbox" <%= admin%> name="admin"/><br /><br />
+        <input type="submit" value="Update" />
+      </form>
+    </div>
+  </body>
+</html>

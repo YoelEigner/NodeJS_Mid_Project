@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" />
+    <title>New Movie</title>
+  </head>
+  <body>
+    <h1>New Movie</h1>
+    <div class="container">
+      <br />
+      <br />
+      <form action="/newmovie/save" method="POST">
+        <input type="button" value="Back" onclick="history.back()" /><br/>
+        <br />
+        <br />
+        Name : <input type="text" name="name" /><br />
+        Language : <input type="text" name="language" /><br />
+        Genres : <input type="text" name="genre" placeholder="Separate by comma" /> <br /><br />
+        <input type="submit" value="Save" />
+        <br /><br />
+      </form>
+    </div>
+  </body>
+</html>

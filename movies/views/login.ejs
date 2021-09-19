@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" />
+    <script>
+        function setuser(){
+            let a = sessionStorage.setItem("username", document.getElementById("username").value);
+            console.log(a)
+
+        }
+    </script>
+  </head>
+  <body>
+    <h1>Login</h1>
+
+    <form action="/login/success/" method="POST">
+      User Name : <input type="text" name="username" id="username"/><br />
+      Password : <input type="text" name="pwd" /><br />
+      <input type="submit" value="Login" onclick="setuser()" />
+    </form>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" />
+
+    <title>Results</title>
+    <style>
+      div.solid {
+        border-style: solid;
+      }
+      div.ridge {
+        border-style: ridge;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Results</h1>
+    <br />
+    <input type="button" value="Back" onclick="history.back()" /><br/>
+    <input type="button" value="Home" onclick="window.location='/home'" />
+
+
+    <br />
+    <br />
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <% language.map(x => { %>
+          <div class="solid">
+            Name : <a href="/search/<%= x.id %>"><%= x.name %></a><br />
+            Genres : <%= x.genres %><br />
+            Premiered : <%= x.premiered %><br /><br />
+          </div>
+          <br />
+          <% }) %>
+        </div>
+        <h3>You might also like <br /></h3>
+        <% results.map(x => { %>
+        <div class="col-sm-6">
+          Name : <a href="/search/<%= x.id %>"><%= x.name %></a><br />
+          Genres : <%= x.genres %><br />
+          Premiered : <%= x.premiered %><br /><br />
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </body>
+</html>

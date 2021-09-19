@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" />
+  </head>
+  <body>
+    <h1>Search for a movie</h1>
+    <form action="/logout" method="POST">
+      <input type="button" value="Back" onclick="history.back()" /><br/>
+      <input type="submit" value="Logout" /><br /><br />
+    </form>
+    <form action="/search/moviefilter" method="POST">
+      Movie Name : <input type="text" name="movieName" value="" /><br />
+      Movie Genres :
+      <select name="genres" value="">
+        <option>Select a genre</option>
+        <% geners.forEach(x => { %>
+        <option><%= x%></option>
+        <% }) %>
+      </select>
+      <br />
+      Movie Language :
+      <select name="language" value="">
+        <option>Select a language</option>
+        <% langs.forEach(x => { %>
+        <option><%= x%></option>
+        <% }) %>
+      </select>
+      <br /><br />
+      <input type="submit" value="Search" />
+    </form>
+  </body>
+</html>
