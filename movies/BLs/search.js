@@ -1,5 +1,6 @@
 const allMvs = require("./moviesBL");
 
+let test = 0 
 const movie = async (text) => {
   let allMovies = await allMvs.movies();
   let movie = allMovies.filter((x) => x.name.includes(text));
