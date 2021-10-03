@@ -1,70 +1,99 @@
 var express = require("express");
 var router = express.Router();
 var credentials = require("../DALs/getJsonData");
-var allowed = require("../BLs/authentication");
+const session = require("../BLs/sessionMgmt");
 
 router.get("/", async (req, res, next) => {
-  let allow = await allowed.authnticated("Yoel");
-  let creds = await credentials.getJsonData();
-  if (allow) {
-    res.render("usermgmt", { creds, allow });
+  let status = await session.checkStatus(req.session);
+  if(req.session.admin != true){
+    res.send("Unauthorized "+"<a href='/home'>Home</a>")
+  }
+  if (status) {
+    let creds = await credentials.getJsonData();
+    res.render("usermgmt", { creds, admin: req.session.admin });
   } else {
-    res.render("denied");
+    res.redirect("/login");
   }
 });
 
 router.get("/add", async (req, res, next) => {
-  let creds = await credentials.getJsonData();
-  res.render("newUser", { creds, allow: false });
-});
-
-router.post("/:user/update", async (res, req, next) => {
-  let allUsers = await credentials.getJsonData();
-  let index = allUsers.findIndex((x) => x.username === res.body.username);
-  let creds = [...allUsers];
-  let admin;
-  res.body.admin == "on" ? (admin = true) : (admin = false);
-  creds[index].password = res.body.password;
-  creds[index].admin = admin;
-  await credentials.editJsonData(creds);
-  req.render("usermgmt", { creds, allow: false });
-});
-
-router.post("/add", async (res, req, next) => {
-  let allUsers = await credentials.getJsonData();
-  let admin;
-  res.body.admin == "on" ? (admin = true) : (admin = false);
-  let newUser = { username: res.body.username, password: res.body.pwd, authenticated: false, admin: admin };
-  let findDups = allUsers.find((x) => x.username === res.body.username);
-  if (findDups) {
-    req.send("username already exists!");
+  let status = await session.checkStatus(req.session);
+  if (status) {
+    let creds = await credentials.getJsonData();
+    res.render("newUser", { creds, admin: false });
   } else {
-    let creds = [...allUsers, newUser];
-    await credentials.editJsonData(creds);
-    req.render("usermgmt", { creds, allow: false });
+    res.redirect("/login");
   }
 });
 
-router.get("/:user", async (res, req, next) => {
-  let allUsers = await credentials.getJsonData();
-  let user = allUsers.find((x) => x.username === res.params.user);
-  let admin;
-  user.admin == true ? (admin = "checked") : (admin = "off");
-  req.render("updateUser", { user, admin, allow: false });
+router.get("/:user", async (req, res, next) => {
+  let status = await session.checkStatus(req.session);
+  if (status) {
+    let allUsers = await credentials.getJsonData();
+    let user = allUsers.find((x) => x.username === req.params.user);
+    let admin;
+    user.admin == true ? (admin = "checked") : (admin = "off");
+    res.render("updateUser", { user, admin, allow: false });
+  } else {
+    res.redirect("/login");
+  }
 });
 
-router.get("/:user/delete", async (res, req, next) => {
-  let allUsers = await credentials.getJsonData();
-  let index = allUsers.findIndex((x) => x.username === res.params.user);
-  if (index != -1) {
-    let creds = [...allUsers];
-    creds.splice(index, 1);
-    console.log(creds);
-    credentials.editJsonData(creds);
-    // window.history.pushState
-    req.render("usermgmt", { creds, allow: false });
+router.get("/:user/delete", async (req, res, next) => {
+  let status = await session.checkStatus(req.session);
+  if (status) {
+    let allUsers = await credentials.getJsonData();
+    let index = allUsers.findIndex((x) => x.username === req.params.user);
+    if (index != -1) {
+      let creds = [...allUsers];
+      creds.splice(index, 1);
+      credentials.editJsonData(creds);
+      res.redirect("/usermgmt");
+    } else {
+      res.render("error", { message: "Not Found", error: "User Not Found" });
+    }
   } else {
-    req.render("error", { message: "Not Found", error: "User Not Found" });
+    res.redirect("/login");
+  }
+});
+
+router.post("/:user/update", async (req, res, next) => {
+  let status = await session.checkStatus(req.session);
+  if (status) {
+    let allUsers = await credentials.getJsonData();
+    let index = allUsers.findIndex((x) => x.username === req.params.user);
+    let creds = [...allUsers];
+    let admin;
+    req.body.admin == "on" ? (admin = true) : (admin = false);
+    creds[index].password = req.body.password;
+    creds[index].admin = admin;
+    creds[index].credits = req.body.credits;
+    req.session.credits = req.session.credits - 1;
+    await credentials.editJsonData(creds);
+    res.redirect("/usermgmt");
+  } else {
+    res.redirect("/login");
+  }
+});
+
+router.post("/add", async (req, res, next) => {
+  let status = await session.checkStatus(req.session);
+  if (status) {
+    let allUsers = await credentials.getJsonData();
+    let admin;
+    req.body.admin == "on" ? (admin = true) : (admin = false);
+    let newUser = { username: req.body.username, password: req.body.pwd, authenticated: false, admin: admin, credits: req.body.credits };
+    let findDups = allUsers.find((x) => x.username === req.body.username);
+    if (findDups) {
+      res.send("username already exists!");
+    } else {
+      let creds = [...allUsers, newUser];
+      await credentials.editJsonData(creds);
+      res.redirect("usermgmt");
+      // , { creds, allow: false }
+    }
+  } else {
+    res.redirect("/login");
   }
 });
 

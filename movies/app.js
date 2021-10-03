@@ -12,7 +12,12 @@ var resultsRouter = require('./routes/results');
 var logoutRouter = require('./routes/logout');
 var mgmtRouter = require('./routes/usermgmt');
 
+const session = require('express-session');
+
 var app = express();
+app.use(session({secret : 'mysecret'}))
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', usersRouter);
+app.use('/', loginRouter);
 app.use('/home', usersRouter);
 app.use('/login', loginRouter);
 app.use('/search', searchRouter);

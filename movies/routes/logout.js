@@ -2,7 +2,8 @@ var express = require("express");
 var router = express.Router();
 var credentials = require("../DALs/getJsonData");
 
-router.post("/", async (req, res, next) =>{
+router.get("/", async (req, res, next) =>{
+  console.log("temp")
   let creds = await credentials.getJsonData();
   let temp = [...creds];
   temp.forEach(user => {
@@ -12,7 +13,7 @@ router.post("/", async (req, res, next) =>{
   // let temp = creds;
   // temp.authenticated = false;
   credentials.editJsonData(temp);
-  console.log(temp)
+
   res.redirect("/login")
 })
 

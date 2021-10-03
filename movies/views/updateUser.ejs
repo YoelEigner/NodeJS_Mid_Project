@@ -12,6 +12,7 @@
       <form action="/usermgmt/<%= user.username%>/update" method="POST">
         Username : <input type="text" value="<%= user.username %>" name="username" readonly="true"/> <br />
         Password : <input type="text" value="<%= user.password %>" name="password" /><br />
+        Credits : <input type="text" value="<%= user.credits %>" name="credits" /><br />
         Admin ? : <input type="checkbox" <%= admin%> name="admin"/><br /><br />
         <input type="submit" value="Update" />
       </form>
